@@ -6,13 +6,22 @@
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
       <!-- Bootstrap CSS -->
       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
-      <title>Hola mundo!</title>
+      <title>Star Wars</title>
+      <style>
+        svg{
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.9) 100%), url('https://static0.cbrimages.com/wp-content/uploads/2017/12/star-wars-saga.jpg');
+          background-size:100% auto;
+          background-position:center 50%;
+          background-repeat:no-repeat;
+        }
+      </style>
    </head>
    <body>
       <div class="container">
          <div class="row">
-            <div class="col" id="aqui">
-               <h1>Hola mundo!</h1>
+            <div class="col py-3" id="aqui">
+               <h1>Star Wars</h1>
+               <p>Este es el tamaño de algunos de los planetas en el universo de Starwars</p>
             </div>
          </div>
       </div>
@@ -24,43 +33,53 @@
          d3.csv("https://raw.githubusercontent.com/profesorfaco/multimedia2_6/gh-pages/data/swapi-planets.csv").then(function(data) {
            console.log(data);
           
-             // //variables globales
-             // var w = 980, h = 350, f = 50000;
+            var w = 980, h = 350, f = 2000;
           
-             // //crea el svg dentro del elemento de identidad "here"
-             // var svg = d3.select("#aqui")
-             // .append("svg")
-             //   .attr("width", w)
-             //   .attr("height", h)
-             //   .style("background","#EEEEEE");
-             // //selecciona el grupo
-             // var g = svg.selectAll("g")
-             //   .data(data)
-             //   .enter()
-             //   .append("g")  
-             // //dentro del grupo, crea círculos para la data
-             // g.append("circle")
-             //   .attr("cx", function(d, i) { 
-             //     return (i+1) * w/(data.length+1); }
-             //     )
-             //   .attr("cy", function(d) { return h/2; })
-             //   .attr("r", function(d) { return d.population/f; })
-             //   .attr("fill",function(d) { return d.bg; })
-             // //dentro del mismo grupo, agregar texto para la data
-             // g.append("text")
-             //   .attr("x", function(d, i) { return (i+1) * w/(data.length+1); })
-             //   .attr("y", function(d, i) { return (h/1.75)+d.population/f; })
-             //   .attr("fill","#999999")
-             //   .attr('text-anchor','middle')
-             //   .text(function(d) { return d.name; })
-             // //dentro del mismo grupo, agrega otro texto para la data
-             // g.append("text")
-             //   .attr("x", function(d, i) { return (i+1) * w/(data.length+1); })
-             //   .attr("y", function(d, i) { return (h/1.6)+d.population/f; })
-             //   .attr("fill","#333333")
-             //   .attr('text-anchor','middle')      
-             //   .text(function(d) { return "("+d.population+")"; })
-             //   .style("font-size","9px")         
+             var svg = d3.select("#aqui")
+             .append("svg")
+              .attr("width", w)
+              .attr("height", h)
+
+             //selecciona el grupo
+             var g = svg.selectAll("g")
+               .data(data)
+               .enter()
+               .append("g")  
+             //dentro del grupo, crea círculos para la data
+             g.append("circle")
+               .attr("cx", function(d, i) { 
+                 return (i+1) * w/(data.length+1); }
+                 )
+               .attr("cy", function(d) { return h/2; })
+               .attr("r", function(d) { return d.diameter/f; })
+
+               .attr("fill",function(d) {
+                  if (d.climate == "frozen"){
+                    return "rgb(111, 177, 187)"
+                  } else if (d.climate =="arid"){
+                    return "rgb(225, 186, 119)"
+                  } else if (d.climate =="murky"){
+                    return "rgb(148, 149, 80)"
+                  } else {
+                    return "rgb(182, 116, 92)"
+                  }
+                })
+             
+             //dentro del mismo grupo, agregar texto para la data
+             g.append("text")
+               .attr("x", function(d, i) { return (i+1) * w/(data.length+1); })
+               .attr("y", function(d, i) { return (h/1.75)+d.diameter/f; })
+               .attr("fill","#111111")
+               .attr('text-anchor','middle')
+               .text(function(d) { return d.name; })
+             //dentro del mismo grupo, agrega otro texto para la data
+             g.append("text")
+               .attr("x", function(d, i) { return (i+1) * w/(data.length+1); })
+               .attr("y", function(d, i) { return (h/1.6)+d.diameter/f; })
+               .attr("fill","#333333")
+               .attr('text-anchor','middle')      
+               .text(function(d) { return "("+d.climate+")"; })
+               .style("font-size","9px")         
          
          });     
       </script>
